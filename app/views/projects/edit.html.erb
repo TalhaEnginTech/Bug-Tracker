@@ -1,0 +1,58 @@
+
+
+<%if user_signed_in?  %>
+  <%if current_user.role== "Manager" %>
+    <h2 class="heading">Edit Project</h2>
+
+
+    <%= form_with model:@project  do |f| %>
+
+      <div class="col-6" style="margin: 0 auto">
+        <div class="field mb-3">
+          <%= f.label :title %><br/>
+          <%= f.text_field :title, class:"form-control", required:true %>
+        </div>
+        <div class="field mb-3">
+          <%= f.label :project_type %><br/>
+          <%= f.text_field :project_type, autofocus: true, class:"form-control", required:true %>
+        </div>
+        <div class="field mb-3">
+          <%= f.label :created_by %><br/>
+          <%= f.text_field :created_by, autofocus: true, value:current_user.name, class:"form-control" %>
+        </div>
+
+        <div class="field mb-3">
+          <%= f.label :Assign_Developer %><br/>
+
+          <%= f.collection_select :assign_developer, User.where(role:"Developer"), :id, :name, prompt: true, required:true %>
+        </div>
+        <div class="field mb-3">
+          <%= f.label :Assign_QA %><br/>
+
+          <%= f.collection_select :assign_qa, User.where(role:"QA"), :id, :name, prompt: true, required:true %>
+        </div>
+
+        <div class="field mb-3">
+
+          <%= f.number_field :user_id, value: current_user.id, autofocus: true, class:"form-control", type:"hidden" %>
+        </div>
+
+
+
+        <!--        <div class="field mb-3">-->
+        <!--          <%#= f.label :Manager %><br/>-->
+
+        <%#= f.collection_select :manager_id, User.where(role:"Manager"), :id, :name, prompt: true, required:true %>
+        <!--        </div>-->
+        <div class="actions" style="margin-bottom: 10px">
+          <%= f.submit "Edit Project", class:"btn btn-info" %>
+        </div>
+      </div>
+    <% end %>
+  <%else %>
+    redirect_to :root_path, notice: "You are restricted to perform this functionality"
+  <%end %>
+
+<%end %>
+
+

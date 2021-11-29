@@ -1,0 +1,28 @@
+<h1>Bugs#edit</h1>
+<p>Find me in app/views/bugs/edit.html.erb</p>
+
+<h1>Bugs#new</h1>
+
+<%if user_signed_in? %>
+  <%=form_for @bug, url:project_bug_path(id: @bug.id), method: :put do |f| %>
+    <div class="col-6" style="margin: 0 auto">
+
+
+      <div class="col-6" style="margin: 0 auto">
+        <div class="field mb-3">
+          <%= f.label :status %><br/>
+          <%= f.select :status, options_for_select([ "Active", "Taken", "Completed" ])%>
+
+        </div>
+
+        <div class="field mb-3">
+
+          <%= f.number_field :project_id, value:params[:project_id], autofocus: true,  class:"form-control", type:"Hidden" %>
+        </div>
+        <%=f.submit %>
+      </div>
+  <% end %>
+
+  </div>
+<%end %>
+<%= link_to 'Back', projects_path %>

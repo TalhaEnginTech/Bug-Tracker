@@ -1,0 +1,90 @@
+
+<%if user_signed_in? %>
+
+  <div class="row py-5 px-3">
+    <div class="col-md-4 mx-auto">
+      <!-- Profile widget -->
+      <div class="bg-white shadow rounded overflow-hidden">
+        <div class="px-4 pt-5 pb-3 cover">
+          <div class="media align-items-end profile-head">
+
+            <div class="media-body mb-5 text-white">
+              <h4 class="mt-0 mb-0"><%=current_user.name %></h4>
+              <p class="small mb-4"></p><br><br>
+            </div>
+          </div>
+        </div>
+        <div class="bg-light p-2 d-flex justify-content-end text-center">
+          <ul class="list-inline mb-2">
+            <li class="list-inline-item">
+                <h5 class="font-weight-bold mb-1 d-block"><%=current_user.role%></h5><small class="text-muted"> <i class="fas fa-user-tag"></i>Role</small>
+              </li>
+            <li class="list-inline-item">
+              <h5 class="font-weight-bold mb-1 d-block"><%=current_user.email%></h5><small class="text-muted"> <i class="fas fa-user-tag"></i>Email</small>
+            </li>
+              </ul>
+        </div>
+
+        <div class="py-4 px-4">
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <%if current_user.role=="Manager" %>
+
+
+  <table class="table table-striped table-hover">
+    <thead class="thead-dark">
+    <th>Name</th>
+    <th>Email</th>
+    <th>Role</th>
+    <th>Action</th>
+    <th></th>
+    </thead>
+    <tbody>
+<%@users.each do |user| %>
+    <tr>
+<%if user.role != "Manager" %>
+      <%#project = Project.find_by(user_id:user.id) %>
+        <%#end %>
+  <td><%=user.name %></td>
+  <td><%=user.email %></td>
+  <td><%=user.role %></td>
+  <td><%=link_to 'edit', users_edit_user_path(id: user.id) %></td>
+        <% if user.role == 'Developer' %>
+
+          <%p = Project.where(assign_developer: user)  %>
+        <% else  %>
+          <% p = Project.where(assign_qa: user) %>
+        <% end %>
+        <% if Project.find_by_assign_developer(user.id) || Project.find_by_assign_qa(user.id) %>
+
+          <%#p.each do|i| %>
+       <!--        <td><span class="sp"><%##=p(i).title  %></span></td>-->
+            <td>Assigned to Projects:<%=link_to 'view' ,users_show_path(id: user) %></td>
+          <%#end %>
+        <%else %>
+          <td><%=link_to 'delete', users_delete_path(id: user.id),  method: :post %></td>
+        <% end %>
+  <br>
+<%end %>
+<% end %>
+</tr>
+    </tbody>
+  </table>
+
+
+
+
+
+
+      <br>
+    <%= link_to 'Add Employee', users_new_user_path, class:"btn btn-info"%>
+    <%end %>
+  <%else %>
+  <%= render 'layouts/front' %>
+<%end %>

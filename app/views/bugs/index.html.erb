@@ -1,0 +1,54 @@
+<h1 style="margin-top: 40px"class="heading">Bug List</h1>
+
+<%if user_signed_in? %>
+<table class="table table-striped table-hover">
+  <thead class="thead-dark ">
+  <tr>
+    <th>Description</th>
+    <th>Deadline</th>
+    <th>Bug Type</th>
+    <th>Status</th>
+    <th></th>
+    <th></th>
+    <th>Screenshot</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <%#if current_user.role=="Manager" %>
+<% @projects.bugs.each do |b| %>
+  <tr>
+   <td><%=b.description %></td>
+    <td><%=b.deadline %></td>
+    <td><%=b.bug_type %></td>
+    <td><%=b.status %></td>
+    <%if b.avatar.attached? %>
+<!--      <img src="<%#=(url_for(b.avatar).variant(resize: "100x100!")) %>">-->
+      <td style="height: 30px !important;"><%= image_tag b.avatar %></td>
+    <%end %>
+    <%if current_user.role == "Developer" %>
+      <%if b.status=="Active" %>
+          <td><%= link_to 'Assign Ticket', bugs_assign_ticket_path(id: b.id) %></td>
+      <%elsif b.status== 'Taken'%>
+           <td><p>Ticket Assigned!</p></td>
+
+      <%else%>
+
+      <%end %>
+      <%elsif current_user.role == "Manager" || current_user.role == "QA" %>
+      <td><%=link_to 'delete', "/projects/#{@projects.id}/bugs/#{b.id}" , method: :delete %></td>
+    <%end %>
+    <%if b.assign_developer != nil %>
+      <% developer = User.find(b.assign_developer) %>
+        <%if b.status == 'Completed'%>
+      <td><%=developer.name%> has solved this bug</td>
+        <%end %>
+    <%end %>
+  </tr>
+  <%#bug = Bug.find_by(bug_id: b.id) %>
+   <% end %>
+  <%end %>
+
+  </tbody>
+</table>
+<%= link_to 'Back', projects_path %>

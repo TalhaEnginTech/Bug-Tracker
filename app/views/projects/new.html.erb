@@ -1,0 +1,76 @@
+
+<%if user_signed_in?  %>
+  <%if current_user.role== "Manager" %>
+    <h2 class="heading">Add a new Project</h2>
+
+
+    <%= form_with model: @project, url: projects_path do |f| %>
+
+      <div class="col-6" style="margin: 0 auto">
+        <div class="field mb-3">
+          <%= f.label :title %><br/>
+          <%= f.text_field :title, class:"form-control", required:true %>
+        </div>
+        <div class="field mb-3">
+          <%= f.label :project_type %><br/>
+          <%= f.text_field :project_type, autofocus: true, class:"form-control", required:true %>
+        </div>
+        <div class="field mb-3">
+          <%= f.label :created_by %><br/>
+          <%= f.text_field :created_by, autofocus: true, value:current_user.name, class:"form-control" %>
+        </div>
+
+        <div class="field mb-3">
+          <%#= fields_for(@users) do |d|  %>
+
+
+          <%#= f.collection_select :assign_developer, User.where(role:"Developer"), :id, :name, prompt:true, required:true %>
+          <%#= select_tag :assign_developer, options_from_collection_for_select(User.where(role:"Developer"), :id, :name), multiple: true %>
+          <%#= f.select 'assign_developer[]', options_for_select(User.map { |s| [s.name, s.id] }, User.name.pluck(:id)), multiple: true, size: 10 %>
+           <%#end %>
+          <%#= f.select :assign_developer, {assign_developer:assign_developer} %>
+          <div class="field mb-3">
+            <%= f.label :assign_developer %><br/>
+
+            <%= f.collection_select :assign_developer, User.where(role:"Developer"), :id, :name, prompt: true, required:true %>
+          </div>
+         <%#= select_tag :assign_developer, options_for_select(User.where(role:"Developer").pluck(:name).prepend("")), id:'assign_dev', required: true%>
+        <div class="field mb-3">
+          <%= f.label :Assign_QA %><br/>
+
+          <%= f.collection_select :assign_qa, User.where(role:"QA"), :id, :name, prompt: true, required:true %>
+        </div>
+
+        <div class="field mb-3">
+
+          <%= f.number_field :user_id, value: current_user.id, autofocus: true, class:"form-control", type:"hidden" %>
+        </div>
+
+
+
+        <div class="actions" style="margin-bottom: 10px">
+          <%= f.submit "Create Project", class:"btn btn-info" %>
+        </div>
+      </div>
+    <% end %>
+  <%else %>
+    redirect_to :root_path, notice: "You are restricted to perform this functionality"
+  <%end %>
+
+<%end %>
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+    function selectizeElement(id){
+        $('#'+id).selectize({
+            create: true,
+            openOnFocus: true,
+            closeAfterSelect: true,
+            persist: false
+        });
+    }
+    selectizeElement('assign_dev')
+</script>
+</div>

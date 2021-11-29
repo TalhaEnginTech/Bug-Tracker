@@ -1,0 +1,36 @@
+<h1>developer_bugs</h1>
+
+<%if user_signed_in? %>
+  <table class="table table-striped table-hover">
+    <thead class="thead-dark ">
+    <tr>
+      <th>Description</th>
+      <th>Deadline</th>
+      <th>Bug Type</th>
+      <th>Status</th>
+      <th>Change Status</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <%#if current_user.role=="Manager" %>
+    <% @bugs.each do |b| %>
+      <tr>
+        <td><%=b.description %></td>
+        <td><%=b.deadline %></td>
+        <td><%=b.bug_type %></td>
+        <td><%=b.status %></td>
+        <%if b.status == "Taken" %>
+          <td><%= link_to 'View Bugs', edit_project_bug_url(id: b.id , project_id: b.project_id) %></td>
+          <%else %>
+           <td>___</td>
+        <%end %>
+
+      </tr>
+
+    <% end %>
+<%end %>
+
+</tbody>
+</table>
+<%= link_to 'Back', projects_path %>

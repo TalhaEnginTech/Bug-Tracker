@@ -1,0 +1,52 @@
+<h1>Users#new</h1>
+<p>Find me in app/views/users/new.html.erb</p>
+
+<%if user_signed_in?  %>
+  <%if current_user.role== "Manager" %>
+    <h2 class="heading">Add USER</h2>
+
+
+    <%= form_for  @user, url: new_user_registration_path do |f| %>
+
+      <div class="col-6" style="margin: 0 auto">
+        <div class="field mb-3">
+          <%= f.label :name %><br/>
+          <%= f.text_field :name, class:"form-control", required:true %>
+        </div>
+
+        <div class="field mb-3">
+          <%= f.label :email %><br/>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control", required:true %>
+        </div>
+
+        <div class="field mb-3">
+          <%= f.label :role %><br/>
+          <%= f.radio_button :role, 'Developer' %> Developer
+          <%= f.radio_button :role, 'QA' %> QA
+        </div>
+        <div class="field mb-3">
+          <%= f.label :password %>
+          <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %><br />
+          <%= f.password_field :password, autocomplete: "new-password", class:"form-control" %>
+        </div>
+
+        <div class="field mb-3">
+          <%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control" %>
+        </div>
+        <div class="field mb-3">
+
+
+          <%#= f.collection_select :manager_id, User.where(role:"Manager"), :id, :name, prompt: true, required:true %>
+        </div>
+        <div class="actions" style="margin-bottom: 10px">
+          <%= f.submit "Add", class:"btn btn-info" %>
+        </div>
+      </div>
+    <% end %>
+  <%else %>
+    redirect_to :root_path, notice: "You are restricted to perform this functionality"
+  <%end %>
+<%end %>
