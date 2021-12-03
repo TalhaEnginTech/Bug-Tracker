@@ -1,7 +1,7 @@
-<h1>Bugs#edit</h1>
-<p>Find me in app/views/bugs/edit.html.erb</p>
+<h1 style="margin-top: 40px" class="heading">Change Bug Status</h1>
+<%=link_to  '<i class="fa fa-angle-double-left"></i>'.html_safe, projects_path, class:"space" %>
 
-<h1>Bugs#new</h1>
+
 
 <%if user_signed_in? %>
   <%=form_for @bug, url:project_bug_path(id: @bug.id), method: :put do |f| %>
@@ -10,19 +10,26 @@
 
       <div class="col-6" style="margin: 0 auto">
         <div class="field mb-3">
+          <%if current_user.role == "QA" %>
           <%= f.label :status %><br/>
-          <%= f.select :status, options_for_select([ "Active", "Taken", "Completed" ])%>
+          <%= f.select :status, options_for_select([ "Active", "Closed" ])%>
 
-        </div>
 
+            <%elsif current_user.role == "Developer"%>
+
+
+              <%= f.label :status %><br/>
+              <%= f.select :status, options_for_select([ "Active", "Completed" ])%>
+
+              </div>
+<%end %>
         <div class="field mb-3">
 
           <%= f.number_field :project_id, value:params[:project_id], autofocus: true,  class:"form-control", type:"Hidden" %>
         </div>
-        <%=f.submit %>
+        <%=f.submit "Update", class:"bt btn-secondary" %>
       </div>
   <% end %>
 
   </div>
 <%end %>
-<%= link_to 'Back', projects_path %>

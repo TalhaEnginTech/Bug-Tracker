@@ -14,8 +14,12 @@ class BugsController < ApplicationController
 
   def assign_ticket
     @bug = Bug.find(params[:id])
-    if current_user.role == 'Developer' && !@bug.assign_developer.present?
+    if (current_user.role == 'Developer' && !@bug.assign_developer.present?) || (current_user.role == 'Developer' &&@bug.status == 'Active')
+
+
       @bug.update(assign_developer: current_user.id, status: 'Taken')
+
+
       redirect_to request.referrer
     else
       redirect_to request.referrer
@@ -24,12 +28,14 @@ class BugsController < ApplicationController
 
 
   def create
+
     @bug = Bug.new(bug_params)
 
     if @bug.save
 
       redirect_to project_bugs_path
     else
+      flash[:notice] = @bug.errors.full_messages
       render :new
     end
   end
@@ -41,7 +47,7 @@ class BugsController < ApplicationController
   def update
     @bug = Bug.find(params[:id])
     if @bug.update(bug_params)
-      redirect_to users_developer_bugs_path
+      redirect_to project_bugs_path
     else
       render :edit
     end

@@ -1,27 +1,28 @@
-<h1 class="heading">Create a Bug</h1>
-
+<h1 class="heading">Raise Bug</h1>
+<%=link_to  '<i class="fa fa-angle-double-left"></i>'.html_safe, projects_path, class:"space" %>
 <%if user_signed_in? %>
 <%=form_for @bug, url:project_bugs_path do |f| %>
+    <%= render "devise/shared/error_messages", resource: @bug %>
   <div class="col-6" style="margin: 0 auto">
     <div class="field mb-3">
-      <%= f.label :description %><br/>
+      <%= f.label :description, class:"form_text" %><br/>
       <%= f.text_field :description, class:"form-control", required:true %>
     </div>
     <div class="field mb-3">
-      <%= f.label :deadline %><br/>
+      <%= f.label :deadline, class:"form_text" %><br/>
       <%= f.text_field :deadline, autofocus: true, class:"form-control", required:true %>
     </div>
     <div class="field mb-3">
-      <%= f.label :bug_type %><br/>
-      <%= f.select :bug_type, options_for_select([ "Bug", "Feature" ])%>
+      <%= f.label :bug_type, class:"form_text" %><br/>
+      <%= f.text_field :bug_type, autofocus: true, class:"form-control" %>
     </div>
-    
+
       <div class="field mb-3">
-        <%= f.label :status %><br/>
+        <%= f.label :status, class:"form_text" %><br/>
         <%= f.text_field :status, class:"form-control", required:true %>
       </div>
       <div class="field mb-3">
-        <%= f.label :avatar %><br/>
+        <%= f.label :avatar, class:"form_text" %><br/>
         <%= f.file_field :avatar, class:"form-control" %>
       </div>
 
@@ -29,10 +30,11 @@
 
         <%= f.number_field :project_id, value:params[:project_id], autofocus: true,  class:"form-control", type:"Hidden" %>
       </div>
-      <%=f.submit %>
+    <div class="actions" style="margin-bottom: 10px">
+      <%=f.submit "Create", class:"btn btn-info" %>
+    </div>
     </div>
 <% end %>
 
 </div>
 <%end %>
-<%= link_to 'Back', projects_path %>

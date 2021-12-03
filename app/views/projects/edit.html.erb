@@ -4,33 +4,80 @@
   <%if current_user.role== "Manager" %>
     <h2 class="heading">Edit Project</h2>
 
-
+    <%=link_to  '<i class="fa fa-angle-double-left"></i>'.html_safe, projects_path, class:"space" %>
+    <%= render "devise/shared/error_messages", resource: @project %>
     <%= form_with model:@project  do |f| %>
-
+<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
       <div class="col-6" style="margin: 0 auto">
         <div class="field mb-3">
-          <%= f.label :title %><br/>
+          <%= f.label :title, class:"form_text" %><br/>
           <%= f.text_field :title, class:"form-control", required:true %>
         </div>
         <div class="field mb-3">
-          <%= f.label :project_type %><br/>
+          <%= f.label :project_type, class:"form_text" %><br/>
           <%= f.text_field :project_type, autofocus: true, class:"form-control", required:true %>
         </div>
         <div class="field mb-3">
-          <%= f.label :created_by %><br/>
+          <%= f.label :created_by, class:"form_text" %><br/>
           <%= f.text_field :created_by, autofocus: true, value:current_user.name, class:"form-control" %>
         </div>
 
-        <div class="field mb-3">
-          <%= f.label :Assign_Developer %><br/>
+        <!---selectize-->
+        <%= f.label :assign_developer, class:"form_text" %><br/>
+        <%= f.select :assign_developer, User.where(role: "Developer").pluck(:name, :id), { include_hidden: false }, { multiple: true, class: "selectize" } %>
 
-          <%= f.collection_select :assign_developer, User.where(role:"Developer"), :id, :name, prompt: true, required:true %>
+        <div class="modal fade language-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="mySmallModalLabel">Add developer</h4>
+              </div>
+              <div class="modal-body">
+                <%= form_for User.new, url:projects_path do |f| %>
+                  <div class="form-group">
+                    <%= f.label :name %>
+                    <%= f.text_field :name, class: "form-control" %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.submit class: "btn btn-primary" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="field mb-3">
-          <%= f.label :Assign_QA %><br/>
+<br>
+        <!---end-->
 
-          <%= f.collection_select :assign_qa, User.where(role:"QA"), :id, :name, prompt: true, required:true %>
+        <!-----Selectize for QA----->
+        <%= f.label :assign_qa, class:"form_text" %><br/>
+        <%= f.select :assign_qa, User.where(role: "QA").pluck(:name, :id), { include_hidden: false }, { multiple: true, class: "selectize" } %>
+
+        <div class="modal fade language-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="mySmallModalLabel">Add developer</h4>
+              </div>
+              <div class="modal-body">
+                <%= form_for User.new, url:projects_path do |f| %>
+                  <div class="form-group">
+                    <%= f.label :name %>
+                    <%= f.text_field :name, class: "form-control" %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.submit class: "btn btn-primary" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-----end--->
+
 
         <div class="field mb-3">
 
@@ -45,7 +92,7 @@
         <%#= f.collection_select :manager_id, User.where(role:"Manager"), :id, :name, prompt: true, required:true %>
         <!--        </div>-->
         <div class="actions" style="margin-bottom: 10px">
-          <%= f.submit "Edit Project", class:"btn btn-info" %>
+          <%= f.submit "Submit", class:"btn btn-info" %>
         </div>
       </div>
     <% end %>

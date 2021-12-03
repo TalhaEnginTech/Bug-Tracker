@@ -1,5 +1,8 @@
 class Project < ApplicationRecord
-  validates_presence_of :title, :project_type
+  before_validation do |model|
+    # model.assign_developer.reject(&:blank?) if model.assign_developer
+  end
+  validates_presence_of :title, :project_type, :assign_developer, :assign_qa
   has_many :usrprojects
   has_many :users, through: :usrprojects
   has_many :bugs, dependent: :destroy

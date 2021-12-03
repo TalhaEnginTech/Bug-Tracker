@@ -1,14 +1,21 @@
 class ProjectsController < ApplicationController
   before_action :action_params, only:[:edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token, only: [:update]
   def index
+    @user = User.all
+    if user_signed_in?
     if current_user.role == "Manager"
      @projects = Project.all
     elsif current_user.role == "QA"
-      @projects = Project.where(assign_qa: current_user.id)
+      @projects= Project.where("assign_qa like ?", "%#{current_user.id}%")
+
     else
-      @projects = Project.where(assign_developer: current_user.id)
+         @projects= Project.where("assign_developer like ?", "%#{current_user.id}%")
     end
-    @user = User.all
+    end
+
+
+
   end
 
   def show
@@ -17,6 +24,7 @@ class ProjectsController < ApplicationController
 
   def new
     @project = Project.new
+    # @user = User.find(id: params[:id])
   end
 
   def create
@@ -27,6 +35,7 @@ class ProjectsController < ApplicationController
     if @project.save
       redirect_to projects_path
     else
+      flash[:notice] = @project.errors.full_messages
       render :new
     end
   end
@@ -35,9 +44,11 @@ class ProjectsController < ApplicationController
   end
 
   def update
+
     if @project.update(project_params)
       redirect_to projects_path
     else
+      flash[:notice] = @project.errors.full_messages
       render :edit
     end
   end
@@ -51,7 +62,7 @@ class ProjectsController < ApplicationController
 
   def project_params
 
-    params.require(:project).permit(:title, :project_type, :created_by, :assign_developer, :assign_qa)
+    params.require(:project).permit(:title, :project_type, :created_by, :assign_developer => [], :assign_qa =>[])
   end
 
   def action_params

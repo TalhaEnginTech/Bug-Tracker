@@ -7,6 +7,12 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
+import 'bootstrap'
+require("@rails/ujs").start()
+require("turbolinks")
+require("@rails/activestorage").start()
+require("channels")
+require("packs/custom")
 
 Rails.start()
 Turbolinks.start()
@@ -14,3 +20,14 @@ ActiveStorage.start()
 
 
 //= require selectize
+//= require jquery
+
+//= require bootstrap-sprockets
+//= require jquery_ujs
+//= require turbolinks
+
+
+//= require popper
+
+require("selectize")
+require("packs/language")
