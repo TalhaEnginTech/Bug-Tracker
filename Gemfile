@@ -8,13 +8,15 @@ gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3', '~> 1.4'
 
-group :development, :test do
+group :development do
   gem 'sqlite3'
 end
 
-group :production do
+
+group :test, :production do
   gem 'pg'
 end
+
 gem "autoprefixer-rails"
 gem 'sprockets', '~> 4.0'
 
