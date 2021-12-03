@@ -8,12 +8,12 @@ gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3', '~> 1.4'
 
-group :development do
+group :test, :development do
   gem 'sqlite3'
 end
 
 
-group :test, :production do
+group :production do
   gem 'pg'
 end
 
