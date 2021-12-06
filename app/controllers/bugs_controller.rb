@@ -14,7 +14,7 @@ class BugsController < ApplicationController
 
   def assign_ticket
     @bug = Bug.find(params[:id])
-    if (current_user.role == 'Developer' && !@bug.assign_developer.present?) || (current_user.role == 'Developer' &&@bug.status == 'Active')
+    if (current_user.role == 'Developer' && !@bug.assign_developer.present?) || (current_user.role == 'Developer' && @bug.status == 'Active')
 
 
       @bug.update(assign_developer: current_user.id, status: 'Taken')

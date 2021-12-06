@@ -11,7 +11,7 @@ gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
 group :development, :test do
   gem 'sqlite3'
 end
-
+gem "nokogiri"
 
 group :production do
   gem 'pg'
