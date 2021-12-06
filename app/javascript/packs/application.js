@@ -12,6 +12,7 @@ require("@rails/ujs").start()
 require("turbolinks")
 require("@rails/activestorage").start()
 require("channels")
+import 'stylesheets/application'
 
 Rails.start()
 Turbolinks.start()
