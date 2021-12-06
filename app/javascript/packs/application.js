@@ -26,7 +26,6 @@ ActiveStorage.start()
 //= require turbolinks
 
 
-//= require popper
 
 require("selectize")
 require("packs/language")
