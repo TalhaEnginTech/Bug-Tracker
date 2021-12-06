@@ -12,7 +12,6 @@ require("@rails/ujs").start()
 require("turbolinks")
 require("@rails/activestorage").start()
 require("channels")
-require("packs/custom")
 
 Rails.start()
 Turbolinks.start()
