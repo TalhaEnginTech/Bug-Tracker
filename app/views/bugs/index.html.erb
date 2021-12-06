@@ -34,8 +34,8 @@
     <%end %>
 
 
-
-      <td><%=button_to 'delete', "/projects/#{@projects.id}/bugs/#{b.id}" , method: :delete, data: { confirm: "Are you sure"}, class:"icon_color" %></td>
+    <td> <%= button_to("Delete", "/projects/#{@projects.id}/bugs/#{b.id}", {:onclick => "return confirm('Are you sure?')", :method => :delete, :remote => true,class:"btn btn-danger"} ) %></td>
+<!--      <td><%#=button_to 'delete', "/projects/#{@projects.id}/bugs/#{b.id}" , method: :delete, data: { confirm: "Are you sure"}, class:"icon_color" %></td>-->
       <td><%=link_to 'change status', edit_project_bug_path(id: b.id), class:"icon_color" %></td>
 
     <%if b.assign_developer != nil %>
