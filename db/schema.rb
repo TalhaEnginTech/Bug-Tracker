@@ -72,16 +72,6 @@ ActiveRecord::Schema.define(version: 2021_11_25_220458) do
     t.index ["user_id"], name: "index_userbugs_on_user_id"
   end
 
-  create_table "userprojects", force: :cascade do |t|
-    t.date "time"
-    t.integer "User_id", null: false
-    t.string "Project"
-    t.string "references"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["User_id"], name: "index_userprojects_on_User_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -111,7 +101,6 @@ ActiveRecord::Schema.define(version: 2021_11_25_220458) do
   add_foreign_key "bugs", "projects"
   add_foreign_key "userbugs", "bugs"
   add_foreign_key "userbugs", "users"
-  add_foreign_key "userprojects", "Users"
   add_foreign_key "usrprojects", "projects"
   add_foreign_key "usrprojects", "users"
 end
