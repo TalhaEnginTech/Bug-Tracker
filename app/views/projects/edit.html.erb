@@ -14,13 +14,13 @@
           <%= f.text_field :title, class:"form-control", required:true %>
         </div>
         <div class="field mb-3">
-          <%= f.label :project_type, class:"form_text" %><br/>
-          <%= f.text_field :project_type, autofocus: true, class:"form-control", required:true %>
+          <%= f.label :project_type %><br/>
+          <%= f.select :project_type, options_for_select([ "Web Development", "Mobile App Development", "ERP-based Development", "Desktop App", "Plugin", "Theme" ])%>
         </div>
-        <div class="field mb-3">
-          <%= f.label :created_by, class:"form_text" %><br/>
-          <%= f.text_field :created_by, autofocus: true, value:current_user.name, class:"form-control" %>
-        </div>
+<!--        <div class="field mb-3">-->
+<!--          <%#= f.label :created_by, class:"form_text" %><br/>-->
+          <%#= f.text_field :created_by, autofocus: true, value:current_user.name, class:"form-control" %>
+<!--        </div>-->
 
         <!---selectize-->
         <%= f.label :assign_developer, class:"form_text" %><br/>

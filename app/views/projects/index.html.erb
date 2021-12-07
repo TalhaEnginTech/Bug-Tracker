@@ -1,20 +1,34 @@
 
+<style>
+  .button_to{
+      display: initial !important;
+     height: 0px !important;
+      width: 0px !important;
+      border: none;
+      cursor:pointer;
 
+
+  }
+</style>
 
 <% if user_signed_in? %>
-  <h1 class="heading bgc">Projects List</h1>
-  <%if current_user.role=="Manager" %>
+  <%project = Project.all %>
 
-<table class="table table-striped table-hover">
+
+
+  <%if current_user.role=="Manager" %>
+    <%if project.present? %>
+      <h1 class="heading bgc">Projects List</h1>
+<table class="table table-striped table-hover space">
   <thead class="thead-light ">
   <tr>
     <th>Project Title</th>
     <th>Project Type</th>
     <th>Assigned Developer</th>
     <th>Assigned QA</th>
-    <th>View Bugs</th>
-    <th>Edit Project</th>
-    <th>Delete Project</th>
+    <th>Actions</th>
+<!--    <th>Edit Project</th>-->
+<!--    <th>Delete Project</th>-->
   </tr>
   </thead>
 
@@ -47,7 +61,7 @@
 
         </td>
 <% else %>
-        <td></td>
+        <td>Not Assigned</td>
         <% end %>
       <% if !p.assign_qa.present? %>
         <td><p>Not Assigned </p></td>
@@ -63,17 +77,35 @@
           <%end %>
         </td>
       <% end %>
-      <td><%=link_to '<i class="fa fa-eye" aria-hidden="true"></i>'.html_safe, project_bugs_path(project_id:p.id), class:"icon_color"  %></td>
-      <td><%=link_to '<i class="fas fa-edit"></i>'.html_safe, edit_project_path(p.id),class:"icon_color" %></td>
+      <td><%=link_to '<i class="fa fa-eye" aria-hidden="true"></i>'.html_safe, project_bugs_path(project_id:p.id), class:"icon_color"  %>
+      <%=link_to '<i class="fas fa-edit"></i>'.html_safe, edit_project_path(p.id),class:"icon_color" %>
 <!--      <td><%#=button_to 'delete', project_path(p), :method => :delete,  confirm: "Are you sure", class:"btn btn-danger" %></td>-->
-     <td> <%= button_to("Delete", project_path(p), {:onclick => "return confirm('Are you sure?')", :method => :delete, :remote => true,class:"btn btn-danger"} ) %></td>
+<!--     <td><%#=button_to 'p', project_path(p), {:onclick => "return confirm('Are you sure?')", :method => :delete, :remote => true}   %>-->
+
+<!--  </td>-->
+
+        <%#= link_to project_path(p),  {:onclick => "return confirm('Are you sure?')", :method => :delete, :remote => true}, style: 'display: initial'  do %>
+<!--          <i class="fa fa-trash"></i>-->
+  <%# end %>
+        <%= link_to '<i class="fa fa-trash"></i>'.html_safe,
+                    { controller: "projects", action: "destroy", id: p.id },
+                    data: { confirm: 'Are you sure?' },
+                    method: :delete, class:"icon_color" %>
+      </td>
 
   <% end %>
+    <%else %>
+      <h1 style="margin-top: 170px" class="heading2">No Project created so far!</h1>
+    <%end %>
     </tr>
   </tbody>
 </table>
     <%elsif current_user.role=="QA" %>
-    <table class="table table-striped table-hover">
+    <%p_qa = Project.where("assign_qa like ?", "%#{current_user.id.to_s}%") %>
+    <%if p_qa.present? %>
+
+    <h1 class="heading bgc">Projects List</h1>
+    <table class="table table-striped table-hover space">
       <thead class="thead-light ">
       <tr>
         <th>Project Title</th>
@@ -122,14 +154,20 @@
             </td>
           <% end %>
              <td><%=link_to 'raise bug', new_project_bug_path(project_id:p.id), class:"icon_color" %></td>
-             <td><%=link_to '<i class="fa fa-eye" aria-hidden="true"></i>'.html_safe, project_bugs_path(project_id:p.id),class:"icon_color" %></td>
-      <%end %>
+          <td><%=link_to '<i class="fa fa-eye" aria-hidden="true"></i>'.html_safe, project_bugs_path(project_id:p.id),class:"icon_color" %></td>
 
+      <%end %>
+    <%else %>
+      <h1 style="margin-top: 170px" class="heading2">No Project assigned!</h1>
+    <%end %>
       </tr>
       </tbody>
     </table>
   <%elsif current_user.role=="Developer" %>
-    <table class="table table-striped table-hover">
+    <%p_dev = Project.where("assign_developer like ?", "%#{current_user.id.to_s}%") %>
+    <%if p_dev.present? %>
+      <h1 class="heading bgc">Projects List</h1>
+    <table class="table table-striped table-hover space">
       <thead class="thead-light ">
       <tr>
         <th>Project Title</th>
@@ -184,11 +222,15 @@
           <%end %>
           <%#end %>
       <%end %>
-
+    <%else %>
+      <h1 style="margin-top: 170px" class="heading2">No Project assigned!</h1>
     <%end %>
+    <%end %>
+
   </tr>
   </tbody>
   </table>
+
 <%else %>
   <%= render 'layouts/front' %>
 <%end %>

@@ -54,7 +54,9 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
+
     @project.destroy
+
     redirect_to projects_path, flash: { notice: 'project deleted!' }
   end
 

@@ -28,6 +28,5 @@ ActiveStorage.start()
 //= require turbolinks
 
 
-
 require("selectize")
 require("packs/language")

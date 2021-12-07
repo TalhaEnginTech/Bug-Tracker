@@ -25,11 +25,11 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control" %>
   </div>
 
-  <div class="field mb-3">
-    <%= f.label :role %><br/>
-    <%= f.radio_button :role, 'Manager' , class:"form-control"%> Manager
-<!--    <%#= f.radio_button :role, 'Employee' %> Employee-->
-  </div>
+    <div class="field mb-3">
+      <%= f.label :role %><br/>
+      <%= f.radio_button :role, 'Manager' %> Manager
+
+    </div>
 
   <div class="actions btn btn-dark">
     <%= f.submit "Sign up" %>
