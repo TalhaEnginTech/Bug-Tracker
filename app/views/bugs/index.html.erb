@@ -50,18 +50,19 @@
 </td>
 
     <td><%=link_to 'change status', edit_project_bug_path(id: b.id), class:"icon_color" %></td>
-
+    <%if b.status == 'Active'  %>
+      <td>Not Assigned</td>
+      <%end %>
     <%if b.assign_developer != nil %>
       <% developer = User.find(b.assign_developer) %>
+
         <%if b.status == 'Completed' || b.status == 'Closed' %>
             <td>Solved By <%=developer.name%> </td>
         <%elsif  b.status == 'Taken' %>
         <td>Pending</td>
-        <%elsif b.status == 'Active'%>
-
-        <td><%='ul' %></td>
           <% end%>
-        <%end %>
+      </tr>
+    <%end %>
   <%end %>
     </tbody>
     </table>
@@ -96,7 +97,8 @@
       <td><%= link_to 'Assign Ticket', bugs_assign_ticket_path(id: b.id), class:"icon_color" %></td>
     <%elsif b.status== 'Taken'%>
       <td><p>Ticket Assigned!</p></td>
-
+    <%elsif b.status == 'Completed' || b.status == 'Closed' %>
+            <td>Completed</td>
   <%end %>
             </tr>
     <%end %>

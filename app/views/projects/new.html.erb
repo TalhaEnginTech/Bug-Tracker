@@ -8,15 +8,16 @@
     <%=link_to  '<i class="fa fa-angle-double-left"></i>'.html_safe, projects_path, class:"space" %>
     <%= render "devise/shared/error_messages", resource: @project %>
     <%= form_with model: @project, url: projects_path do |f| %>
+     <div class="form_style">
 
-      <div class="col-6" style="margin: 0 auto">
+      <div class="col-10" style="margin: 0 auto">
         <div class="field mb-3">
           <%= f.label :title,  class:"form_text" %><br/>
           <%= f.text_field :title, class:"form-control", required:true %>
         </div>
         <div class="field mb-3">
-          <%= f.label :project_type %><br/>
-          <%= f.select :project_type, options_for_select([ "Web Development", "Mobile App Development", "ERP-based Development", "Desktop App", "Plugin", "Theme" ])%>
+          <%= f.label :project_type,  class:"form_text" %><br/>
+          <%= f.select :project_type, options_for_select([ "Web Development", "Mobile App Development", "ERP-based Development", "Desktop App", "Plugin", "Theme" ]), class:"dropdown"%>
         </div>
 <!--        <div class="field mb-3">-->
 <!--          <%#= f.label :created_by, class:"form_text" %><br/>-->
@@ -114,6 +115,8 @@
           <%= f.submit "Create Project", class:"btn btn-info" %>
         </div>
       </div>
+
+     </div>
     <% end %>
   <%else %>
     redirect_to :root_path, notice: "You are restricted to perform this functionality"

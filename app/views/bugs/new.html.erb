@@ -3,7 +3,8 @@
 <%if user_signed_in? %>
 <%=form_for @bug, url:project_bugs_path do |f| %>
     <%= render "devise/shared/error_messages", resource: @bug %>
-  <div class="col-6" style="margin: 0 auto">
+    <div class="form_style">
+  <div class="col-10" style="margin: 0 auto">
     <div class="field mb-3">
       <%= f.label :description, class:"form_text" %><br/>
       <%= f.text_field :description, class:"form-control", required:true %>
@@ -37,4 +38,5 @@
 <% end %>
 
 </div>
+  </div>
 <%end %>

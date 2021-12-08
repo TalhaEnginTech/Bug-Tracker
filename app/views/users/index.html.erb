@@ -35,7 +35,8 @@
 
 
   <%if current_user.role=="Manager" %>
-
+   <%u = User.find_by(role:"Developer") %>
+    <%if u.present? %>
     <h1 class="heading">Registered Employees</h1>
   <table class="table table-striped table-hover space">
     <thead class="thead-light">
@@ -50,8 +51,7 @@
 <%@users.each do |user| %>
     <tr>
 <%if user.role != "Manager" %>
-      <%#project = Project.find_by(user_id:user.id) %>
-        <%#end %>
+
   <td><%=user.name %></td>
   <td><%=user.email %></td>
   <td><%=user.role %></td>
@@ -105,6 +105,9 @@
 
 
       <br>
+    <%else %>
+      <h1 style="margin-top: 170px" class="heading2">No Registered Employee!</h1>
+    <%end %>
     <div style="margin-left: 1%">
     <%= link_to 'Add Employee', users_new_user_path, class:"btn btn-info"%>
     </div>
