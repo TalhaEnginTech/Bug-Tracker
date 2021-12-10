@@ -30,7 +30,8 @@ gem 'devise', '~> 4.8'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 5.0'
 #gem 'jquery-rails'
-
+gem 'kaminari', '~> 1.2', '>= 1.2.1'
+gem "will_paginate", "~> 3.0.4"
 gem "selectize-rails"
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
@@ -51,7 +52,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
-
+gem 'rails_admin', '~> 2.2', '>= 2.2.1'
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 4.1.0'

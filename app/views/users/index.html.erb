@@ -1,39 +1,5 @@
 
 <%if user_signed_in? %>
-
-<!--  <div class="row py-5 px-3">-->
-<!--    <div class="col-md-4 mx-auto">-->
-<!--       Profile widget -->
-<!--      <div class="bg-white shadow rounded overflow-hidden">-->
-<!--        <div class="px-4 pt-5 pb-3 cover">-->
-<!--          <div class="media align-items-end profile-head">-->
-
-<!--            <div class="media-body mb-5 text-white">-->
-<!--              <h4 class="mt-0 mb-0"><%#=current_user.name %></h4>-->
-<!--              <p class="small mb-4"></p><br><br>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="bg-light p-2 d-flex justify-content-end text-center">-->
-<!--          <ul class="list-inline mb-2">-->
-<!--            <li class="list-inline-item">-->
-<!--                <h5 class="font-weight-bold mb-1 d-block"><%#=current_user.role%></h5><small class="text-muted"> <i class="fas fa-user-tag"></i>Role</small>-->
-<!--              </li>-->
-<!--            <li class="list-inline-item">-->
-<!--              <h5 class="font-weight-bold mb-1 d-block"><%#=current_user.email%></h5><small class="text-muted"> <i class="fas fa-user-tag"></i>Email</small>-->
-<!--            </li>-->
-<!--              </ul>-->
-<!--        </div>-->
-
-<!--        <div class="py-4 px-4">-->
-
-
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-
   <%if current_user.role=="Manager" %>
    <%u = User.find_by(role:"Developer") %>
     <%if u.present? %>
@@ -72,9 +38,6 @@
         <%p = Project.where("assign_qa like ?", "%#{user.id.to_s}%") %>
         <%end %>
         <%if p.present? %>
-          <%#p.each do|i| %>
-
-       <!--        <td><span class="sp"><%##=p(i).title  %></span></td>-->
           <td>Assigned</td>
           <td><%=link_to '<i class="fa fa-eye" aria-hidden="true"></i>'.html_safe ,users_show_path(id: user),class:"icon_color" %></td>
           <%#end %>
@@ -97,14 +60,10 @@
 <% end %>
 </tr>
     </tbody>
+
   </table>
-
-
-
-
-
-
       <br>
+
     <%else %>
       <h1 style="margin-top: 170px" class="heading2">No Registered Employee!</h1>
     <%end %>
@@ -112,5 +71,6 @@
     <%= link_to 'Add Employee', users_new_user_path, class:"btn btn-info"%>
     </div>
     <%end %>
-
+  <br><br><br>
+  <%= paginate @users %>
 <%end %>

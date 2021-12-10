@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_action :action_params, only: [:show, :edit, :update, :destroy]
+before_action :action_params, only: [:show, :edit, :update, :destroy]
   def index
-    @users = User.all
+    @users = User.page(params[:page])
     @projects = Project.all
 
   end

@@ -3,23 +3,24 @@ class ProjectsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:update]
   def index
     @user = User.all
+
     if user_signed_in?
-    if current_user.role == "Manager"
-     @projects = Project.all
-    elsif current_user.role == "QA"
-      @projects= Project.where("assign_qa like ?", "%#{current_user.id}%")
+      if current_user.role == "Manager"
+       @projects = Project.all
+       @p = Kaminari.paginate_array(@projects).page(params[:page]).per(2)
+      elsif current_user.role == "QA"
+        @projects= Project.where("assign_qa like ?", "%#{current_user.id}%")
+        #@p = JSON.stringify(@projects)
 
-    else
-         @projects= Project.where("assign_developer like ?", "%#{current_user.id}%")
+        @p = Kaminari.paginate_array(@projects).page(params[:page]).per(2)
+      else
+           @projects= Project.where("assign_developer like ?", "%#{current_user.id}%").page(params[:page])
+           @p = Kaminari.paginate_array(@projects).page(params[:page]).per(2)
+      end
     end
-    end
-
-
-
   end
 
   def show
-
   end
 
   def new

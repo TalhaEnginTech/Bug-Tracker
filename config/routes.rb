@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   root 'projects#index'
   get 'users/index', to: 'users#index'
   get 'users/new_user', to: 'users#new_user'
