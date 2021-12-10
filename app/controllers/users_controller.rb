@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 before_action :action_params, only: [:show, :edit, :update, :destroy]
   def index
-    @users = User.page(params[:page])
+    @users = User.all
+    @user = Kaminari.paginate_array(@users).page(params[:page]).per(1)
     @projects = Project.all
 
   end

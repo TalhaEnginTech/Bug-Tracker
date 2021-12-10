@@ -1,7 +1,7 @@
 
 <%if user_signed_in? %>
   <%if current_user.role=="Manager" %>
-   <%u = User.find_by(role:"Developer") %>
+   <%u = User.find_by(role:"Developer") || User.find_by(role:"QA") %>
     <%if u.present? %>
     <h1 class="heading">Registered Employees</h1>
   <table class="table table-striped table-hover space">
@@ -22,15 +22,7 @@
   <td><%=user.email %></td>
   <td><%=user.role %></td>
   <td><%=link_to '<i class="fas fa-edit"></i>'.html_safe, users_edit_user_path(id: user.id), class:"icon_color" %></td>
-        <%# if user.role == 'Developer' %>
 
-          <%#p = Project.where(assign_developer: user)  %>
-        <%# else  %>
-          <%# p = Project.where(assign_qa: user) %>
-        <%# end %>
-        <%# if Project.find_by_assign_developer( user.id) || Project.find_by_assign_qa( user.id)  %>
-
-        <%# p = Project.where(assign_developer: user.id).to_s%>
         <%if user.role=="Developer" %>
         <% p = Project.where("assign_developer like ?", "%#{user.id.to_s}%") %>
 
@@ -43,13 +35,6 @@
           <%#end %>
         <%else %>
           <td>Not Assigned</td>
-<!--   <td><%#=button_to 'delete', users_delete_path(id: user.id),  method: :post, data: { confirm: "Are you sure"},class:"icon_color" %></td>-->
-<!--          <td> <%#= button_to("Delete", users_delete_path(id: user.id), {:onclick => "return confirm('Are you sure?')", :method => :delete, :remote => true,class:"btn btn-danger"} ) %></td>-->
-
-<!--          <td><%#= button_to users_delete_path(id: user.id), {:onclick => "return confirm('Are you sure?')", :method => :delete, :remote => true}  do %>-->
-<!--              <i class="fas fa-trash"></i>-->
-
-<!--            <%# end %></td>-->
           <td><%= link_to '<i class="fa fa-trash"></i>'.html_safe,
                           { controller: "users", action: "destroy", id: user.id },
                           data: { confirm: 'Are you sure?' },
@@ -67,10 +52,11 @@
     <%else %>
       <h1 style="margin-top: 170px" class="heading2">No Registered Employee!</h1>
     <%end %>
-    <div style="margin-left: 1%">
+    <div style="margin-left: 2%">
     <%= link_to 'Add Employee', users_new_user_path, class:"btn btn-info"%>
     </div>
     <%end %>
   <br><br><br>
-  <%= paginate @users %>
+
+  <%#= paginate @user %>
 <%end %>
